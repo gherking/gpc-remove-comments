@@ -15,7 +15,7 @@ let ast = await compiler.load('./features/src/login.feature');
 ast = compiler.process(
   ast,
   new RemoveComments({
-      keep: CommentType.STEP | CommentType.PRECEDING
+    keep: CommentType.STEP | CommentType.PRECEDING
   })
 );
 await compiler.save('./features/dist/login.feature', ast, {
@@ -32,7 +32,7 @@ let ast = await load("./features/src/login.feature");
 ast = process(
   ast,
   new RemoveComments({
-      keep: CommentType.STEP | CommentType.PRECEDING
+    keep: CommentType.STEP | CommentType.PRECEDING
   })
 );
 await save('./features/dist/login.feature', ast, {

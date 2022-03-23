@@ -13,5 +13,5 @@ export enum CommentType {
 }
 
 export interface RemoveCommentsOptions {
-  keep?: CommentType;
+  keep?: number | CommentType | (keyof CommentType)[];
 }

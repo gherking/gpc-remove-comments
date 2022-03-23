@@ -13,13 +13,13 @@ const { default: RemoveComments, CommentType } = require('gpc-remove-comments');
 
 let ast = await compiler.load('./features/src/login.feature');
 ast = compiler.process(
-    ast,
-    new RemoveComments({
-        keep: CommentType.STEP | CommentType.PRECEDING
-    })
+  ast,
+  new RemoveComments({
+      keep: CommentType.STEP | CommentType.PRECEDING
+  })
 );
 await compiler.save('./features/dist/login.feature', ast, {
-    lineBreak: '\r\n'
+  lineBreak: '\r\n'
 });
 ```
 
@@ -30,13 +30,13 @@ import RemoveComments, { CommentType } from "gpc-remove-comments";
 
 let ast = await load("./features/src/login.feature");
 ast = process(
-    ast,
-    new RemoveComments({
-        keep: CommentType.STEP | CommentType.PRECEDING
-    })
+  ast,
+  new RemoveComments({
+      keep: CommentType.STEP | CommentType.PRECEDING
+  })
 );
 await save('./features/dist/login.feature', ast, {
-    lineBreak: '\r\n'
+  lineBreak: '\r\n'
 });
 ```
 
@@ -48,6 +48,23 @@ and the [CommentType](src/types.ts) flags can be used.
 - To keep all comments, pass the `CommentType.ALL` in `keep`
 - To keep non of the comments, pass the `CommentType.NONE` in `keep` (this is the default)
 - To keep any or more types, pass the value using the **binary OR**: `CommentType.STEP | CommentType.TAG`
+
+#### `.gherking.json`
+
+When the configuration is set in the `.gherking.json`, the names of the `CommentType` can be used and passed as a **string array**, e.g.
+
+```json
+{
+  "compilers": [
+    {
+      "path": "gpc-remove-comments",
+      "configuration": {
+        "keep": ["STEP", "TAG"]
+      }
+    }
+  ]
+}
+```
 
 ## Other
 

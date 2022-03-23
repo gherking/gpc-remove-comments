@@ -14,10 +14,25 @@ class RemoveComments implements PreCompiler {
             keep: CommentType.NONE,
             ...(config || {})
         }
+
+        if (Array.isArray(this.config.keep)) {
+            let keep = 0b0;
+            for (const typeConfig of this.config.keep) {
+                const typeKey = typeConfig.toUpperCase();
+                if (!(typeKey in CommentType)) {
+                    throw new TypeError(`CommentType (${typeConfig}) is not valid!`);
+                }
+                // @ts-ignore
+                keep |= CommentType[typeKey] as number;
+            }
+            this.config.keep = keep as CommentType;
+        } else if (typeof this.config.keep !== "number") {
+            throw new TypeError(`keep must be a number or a string array containing CommentTypes!`);
+        }
     }
 
     private shouldRemove(type: CommentType): boolean {
-        const b = !(this.config.keep & type);
+        const b = !((this.config.keep as number) & type);
         debug("shouldRemove(type: %d, keep: %d) -> %b", type, this.config.keep, b);
         return b;
     }

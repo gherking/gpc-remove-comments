@@ -23,6 +23,8 @@ jobs:
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.beta-release.outputs.version }}
     steps:
       - name: Generate build number
         uses: einaregilsson/build-number@v3
@@ -40,9 +42,10 @@ jobs:
       - name: Build
         run: npm run buildUpdate
       - name: Release
+        id: beta-release
         run: |
           cv=$(cat package.json | grep version | cut -d '"' -f 4)
-          echo "$cv-beta.$BUILD_NUMBER"
+          echo '::set-output name=version::$cv-beta.$BUILD_NUMBER'
           npm --no-git-tag-version version "$cv-beta.$BUILD_NUMBER"
           npm publish --tag beta .
         working-directory: ./dist

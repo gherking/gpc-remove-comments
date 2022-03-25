@@ -46,7 +46,7 @@ By default, the precompiler removes all comments. But to keep certain [type of c
 and the [CommentType](src/types.ts) flags can be used.
 
 - To keep all comments, pass the `CommentType.ALL` in `keep`
-- To keep non of the comments, pass the `CommentType.NONE` in `keep` (this is the default)
+- To keep none of the comments, pass the `CommentType.NONE` in `keep` (this is the default)
 - To keep any or more types, pass the value using the **binary OR**: `CommentType.STEP | CommentType.TAG`
 
 #### `.gherking.json`

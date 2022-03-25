@@ -1,7 +1,7 @@
 {
   "name": "gpc-remove-comments",
-  "version": "0.0.1",
-  "description": "This repository is a template to create precompilers for GherKing.",
+  "version": "1.0.0",
+  "description": "This precompiler removes all or particular type of semantic comments from the feature file.",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -57,8 +57,8 @@
   },
   "dependencies": {
     "debug": "^4.3.1",
-    "gherkin-ast": "^3.2.1",
-    "gherking": "^2.0.0"
+    "gherkin-ast": "^3.3.0",
+    "gherking": "^2.1.0"
   },
   "jest": {
     "reporters": [

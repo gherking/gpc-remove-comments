@@ -1,46 +1,71 @@
-> **IMPORTANT** This version of the package is only a placeholder. Please use **v1.0.0** as soon as it is released!
-
 # gpc-remove-comments
 
 ![Downloads](https://img.shields.io/npm/dw/gpc-remove-comments?style=flat-square) ![Version@npm](https://img.shields.io/npm/v/gpc-remove-comments?label=version%40npm&style=flat-square) ![Version@git](https://img.shields.io/github/package-json/v/gherking/gpc-remove-comments/master?label=version%40git&style=flat-square) ![CI](https://img.shields.io/github/workflow/status/gherking/gpc-remove-comments/CI/master?label=ci&style=flat-square) ![Docs](https://img.shields.io/github/workflow/status/gherking/gpc-remove-comments/Docs/master?label=docs&style=flat-square)
 
-This repository is a template to create precompilers for GherKing.
+This precompiler removes all or particular type of semantic comments from the feature file.
 
 ## Usage
 
 ```javascript
 'use strict';
 const compiler = require('gherking');
-const RemoveComments = require('gpc-remove-comments');
+const { default: RemoveComments, CommentType } = require('gpc-remove-comments');
 
 let ast = await compiler.load('./features/src/login.feature');
 ast = compiler.process(
-    ast,
-    new RemoveComments({
-        // config
-    })
+  ast,
+  new RemoveComments({
+    keep: CommentType.STEP | CommentType.PRECEDING
+  })
 );
 await compiler.save('./features/dist/login.feature', ast, {
-    lineBreak: '\r\n'
+  lineBreak: '\r\n'
 });
 ```
 
 ```typescript
 'use strict';
 import {load, process, save} from "gherking";
-import RemoveComments = require("gpc-remove-comments");
+import RemoveComments, { CommentType } from "gpc-remove-comments";
 
 let ast = await load("./features/src/login.feature");
 ast = process(
-    ast,
-    new RemoveComments({
-        // config
-    })
+  ast,
+  new RemoveComments({
+    keep: CommentType.STEP | CommentType.PRECEDING
+  })
 );
 await save('./features/dist/login.feature', ast, {
-    lineBreak: '\r\n'
+  lineBreak: '\r\n'
 });
 ```
+
+### Configuration
+
+By default, the precompiler removes all comments. But to keep certain [type of comments](https://github.com/gherking/gherkin-ast#comments), the `keep` configuration options
+and the [CommentType](src/types.ts) flags can be used.
+
+- To keep all comments, pass the `CommentType.ALL` in `keep`
+- To keep none of the comments, pass the `CommentType.NONE` in `keep` (this is the default)
+- To keep any or more types, pass the value using the **binary OR**: `CommentType.STEP | CommentType.TAG`
+
+#### `.gherking.json`
+
+When the configuration is set in the `.gherking.json`, the names of the `CommentType` can be used and passed as a **string array**, e.g.
+
+```json
+{
+  "compilers": [
+    {
+      "path": "gpc-remove-comments",
+      "configuration": {
+        "keep": ["STEP", "TAG"]
+      }
+    }
+  ]
+}
+```
+
 ## Other
 
 This package uses [debug](https://www.npmjs.com/package/debug) for logging, use `gpc:remove-comments` :
